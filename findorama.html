@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>findorama.net</title>
+<style>
+/* ===== RESET & BASE ===== */
+* { margin: 0; padding: 0; }
+
+body {
+  background: #008080;
+  font-family: "Arial", "Helvetica", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+}
+
+/* ===== BROWSER WINDOW (Netscape Navigator 4.x) ===== */
+.browser-window {
+  width: 680px;
+  background: #c0c0c0;
+  border: 2px solid #ffffff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.5);
+  font-size: 13px;
+  position: relative;
+}
+
+/* ---- Title Bar (Netscape-style) ---- */
+.title-bar {
+  background: linear-gradient(90deg, #000080, #1084d0);
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: default;
+  user-select: none;
+}
+
+.title-bar .title-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.title-bar .title-text {
+  flex: 1;
+}
+
+.title-bar .window-controls {
+  display: flex;
+  gap: 3px;
+}
+
+.title-bar .win-btn {
+  width: 18px;
+  height: 18px;
+  background: #c0c0c0;
+  border: 1px solid #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  font-size: 11px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #000;
+  padding: 0;
+  line-height: 1;
+}
+
+.title-bar .win-btn:active {
+  border: 1px solid #808080;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+/* ---- Menu Bar ---- */
+.menu-bar {
+  background: #d4d0c8;
+  border-bottom: 1px solid #808080;
+  padding: 2px 4px;
+  display: flex;
+  gap: 1px;
+  font-size: 12px;
+  user-select: none;
+}
+
+.menu-bar .menu-item {
+  padding: 2px 8px;
+  cursor: pointer;
+  color: #000;
+}
+
+.menu-bar .menu-item:hover {
+  background: #000080;
+  color: #ffffff;
+}
+
+/* ---- Navigation Toolbar ---- */
+.toolbar {
+  background: #d4d0c8;
+  border-bottom: 1px solid #808080;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.toolbar .nav-btn {
+  width: 24px;
+  height: 20px;
+  background: #c0c0c0;
+  border: 1px solid #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  color: #333;
+  padding: 0;
+}
+
+.toolbar .nav-btn:active {
+  border: 1px solid #808080;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+.toolbar .nav-btn.disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.toolbar .address-label {
+  font-size: 11px;
+  color: #333;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.toolbar .address-bar {
+  flex: 1;
+  min-width: 200px;
+  padding: 2px 5px;
+  font-family: "Arial", "Helvetica", sans-serif;
+  font-size: 12px;
+  border: 2px inset #d4d0c8;
+  background: #ffffff;
+  color: #000;
+}
+
+/* ---- Netscape Bookmarks / Personal Toolbar ---- */
+.bookmark-bar {
+  background: #d4d0c8;
+  border-bottom: 1px solid #808080;
+  padding: 2px 8px;
+  font-size: 11px;
+  display: flex;
+  gap: 12px;
+  user-select: none;
+}
+
+.bookmark-bar .bookmark {
+  color: #000080;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 11px;
+}
+
+.bookmark-bar .bookmark:hover {
+  color: #cc0000;
+}
+
+/* ===== PAGE CONTENT - THE ACTUAL FINDORAMA LOGIN ===== */
+.page-content {
+  background: #b0c4de;  /* light periwinkle blue - matching the episode */
+  min-height: 380px;
+  padding: 0;
+  border: 1px solid #999;
+  border-top: none;
+}
+
+/* ---- Green Header Bar with "findorama.net" ---- */
+.findorama-header {
+  background: #6b8e23;  /* olive green - matching the episode */
+  padding: 12px 20px;
+  text-align: center;
+  border-bottom: 1px solid #556b2f;
+}
+
+.findorama-header h1 {
+  font-family: "Times New Roman", "Georgia", serif;
+  font-size: 48px;
+  font-weight: bold;
+  color: #000000;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.findorama-header h1 .fancy-f {
+  font-family: "Times New Roman", "Georgia", serif;
+  font-size: 52px;
+  font-style: italic;
+  font-weight: bold;
+}
+
+/* ---- Login Form Area ---- */
+.login-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 45px 20px 50px;
+  min-height: 280px;
+  position: relative;
+}
+
+.login-area .welcome-text {
+  font-family: "Arial", "Helvetica", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 25px;
+  letter-spacing: 0.5px;
+}
+
+.login-area .error-msg {
+  font-family: "Arial", "Helvetica", sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  color: #cc0000;
+  background: #ffe0e0;
+  border: 1px solid #cc0000;
+  padding: 6px 14px;
+  margin-bottom: 15px;
+  display: none;
+  text-align: center;
+}
+
+.login-area .error-msg.visible {
+  display: block;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.login-form .form-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.login-form .form-row label {
+  font-family: "Arial", "Helvetica", sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #000000;
+  width: 100px;
+  text-align: right;
+}
+
+.login-form .form-row input {
+  width: 220px;
+  padding: 4px 6px;
+  font-family: "Arial", "Helvetica", sans-serif;
+  font-size: 14px;
+  border: 2px inset #c0c0c0;
+  background: #ffffff;
+  color: #000;
+  outline: none;
+}
+
+.login-form .form-row input:focus {
+  border-color: #000080;
+  background: #fffff0;
+}
+
+.login-form .form-row input.error {
+  border-color: #cc0000;
+  background: #fff0f0;
+}
+
+.login-form .submit-btn {
+  margin-top: 15px;
+  padding: 5px 28px;
+  font-family: "Arial", "Helvetica", sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  background: #d4d0c8;
+  color: #000000;
+  border: 2px solid #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.login-form .submit-btn:active {
+  border: 2px solid #808080;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+.login-form .submit-btn:hover {
+  background: #e0dcd4;
+}
+
+/* ---- Status Bar ---- */
+.status-bar {
+  background: #d4d0c8;
+  border-top: 1px solid #808080;
+  padding: 3px 8px;
+  font-size: 11px;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.status-bar .status-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-bar .progress-bar {
+  width: 100px;
+  height: 14px;
+  background: #ffffff;
+  border: 1px solid #808080;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.status-bar .progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #000080, #1084d0);
+}
+
+.status-bar .status-right {
+  color: #666;
+}
+
+/* ---- Easter Egg: Hidden Trigger ---- */
+.hidden-trigger {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 18px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: default;
+  opacity: 0.1;
+  font-size: 8px;
+  color: transparent;
+  z-index: 999;
+  transition: opacity 0.3s;
+}
+
+.hidden-trigger:hover {
+  opacity: 0.4;
+  color: #333;
+  background: rgba(0,0,0,0.05);
+  cursor: pointer;
+}
+
+/* ---- Thermite Overlay ---- */
+.thermite-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.thermite-overlay.active {
+  display: block;
+  pointer-events: all;
+}
+
+.thermite-overlay .overlay-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ff0000;
+  opacity: 0;
+}
+
+.thermite-overlay.active .overlay-bg {
+  animation: thermiteFlash 0.3s ease-in-out 3;
+}
+
+@keyframes thermiteFlash {
+  0%   { opacity: 0; }
+  25%  { opacity: 0.85; }
+  50%  { opacity: 0.2; }
+  75%  { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+
+.thermite-overlay .thermite-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #000;
+  color: #ff6600;
+  font-family: "Courier New", "Courier", monospace;
+  font-size: 22px;
+  font-weight: bold;
+  padding: 30px 40px;
+  border: 3px solid #ff6600;
+  text-align: center;
+  text-shadow: 0 0 10px #ff6600;
+  white-space: nowrap;
+  opacity: 0;
+  z-index: 10001;
+}
+
+.thermite-overlay.active .thermite-message {
+  animation: messageAppear 0.8s ease forwards;
+}
+
+@keyframes messageAppear {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+  40%  { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+  60%  { opacity: 1; transform: translate(-50%, -50%) scale(0.95); }
+  80%  { opacity: 1; transform: translate(-50%, -50%) scale(1.02); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.thermite-overlay .static-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10002;
+}
+
+.thermite-overlay.active .static-overlay {
+  animation: staticEffect 0.1s infinite;
+}
+
+@keyframes staticEffect {
+  0%   { background: rgba(0,0,0,0.1); }
+  10%  { background: rgba(255,255,255,0.15); }
+  20%  { background: rgba(0,0,0,0.2); }
+  30%  { background: rgba(255,0,0,0.1); }
+  40%  { background: rgba(255,255,255,0.05); }
+  50%  { background: rgba(0,0,0,0.15); }
+  60%  { background: rgba(255,255,0,0.08); }
+  70%  { background: rgba(0,0,0,0.2); }
+  80%  { background: rgba(255,255,255,0.1); }
+  90%  { background: rgba(0,0,0,0.15); }
+  100% { background: rgba(0,0,0,0.1); }
+}
+
+.thermite-overlay .burn-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10003;
+}
+
+.thermite-overlay.active .burn-effect {
+  opacity: 0;
+  animation: burnIn 3s ease forwards;
+  animation-delay: 1.5s;
+}
+
+@keyframes burnIn {
+  0%   { opacity: 0; }
+  20%  { opacity: 0.1; background: radial-gradient(ellipse at 30% 50%, #ffaa00 0%, transparent 60%); }
+  40%  { opacity: 0.25; background: radial-gradient(ellipse at 40% 50%, #ff6600 0%, transparent 55%); }
+  60%  { opacity: 0.4; background: radial-gradient(ellipse at 50% 50%, #ff3300 0%, transparent 50%); }
+  80%  { opacity: 0.55; background: radial-gradient(ellipse at 55% 50%, #cc0000 0%, #330000 40%, transparent 50%); }
+  100% { opacity: 0.7; background: radial-gradient(ellipse at 60% 50%, #990000 0%, #440000 30%, #220000 45%, #000 50%); }
+}
+
+.thermite-overlay .burn-effect::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 100, 0, 0.03) 2px,
+    rgba(255, 100, 0, 0.03) 4px
+  );
+}
+
+.thermite-overlay .dismiss-btn {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 30px;
+  font-family: "Courier New", "Courier", monospace;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ff6600;
+  background: #1a0000;
+  border: 2px solid #ff6600;
+  cursor: pointer;
+  opacity: 0;
+  z-index: 10004;
+  pointer-events: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.thermite-overlay.active .dismiss-btn {
+  animation: fadeInBtn 1s ease forwards;
+  animation-delay: 2.5s;
+  pointer-events: all;
+}
+
+.thermite-overlay .dismiss-btn:hover {
+  background: #330000;
+  color: #ff9900;
+  box-shadow: 0 0 20px rgba(255,102,0,0.5);
+}
+
+@keyframes fadeInBtn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 720px) {
+  .browser-window {
+    width: 100%;
+  }
+  .login-form .form-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .login-form .form-row label {
+    width: auto;
+    text-align: center;
+  }
+  .login-form .form-row input {
+    width: 80%;
+  }
+  .thermite-overlay .thermite-message {
+    font-size: 16px;
+    white-space: normal;
+    padding: 20px;
+    width: 90%;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== THE BROWSER WINDOW (Netscape Navigator) ===== -->
+<div class="browser-window" id="browserWindow">
+
+  <!-- Title Bar -->
+  <div class="title-bar">
+    <div class="title-icon">
+      <svg width="16" height="16" viewBox="0 0 16 16">
+        <circle cx="8" cy="8" r="7" fill="#c0c0c0" stroke="#808080" stroke-width="1"/>
+        <text x="8" y="11" text-anchor="middle" font-size="9" font-weight="bold" fill="#000080">N</text>
+      </svg>
+    </div>
+    <span class="title-text">Netscape</span>
+    <div class="window-controls">
+      <button class="win-btn" onclick="minimizeWindow()" title="Minimize">&#95;</button>
+      <button class="win-btn" onclick="toggleMaximize()" title="Maximize">&#9744;</button>
+      <button class="win-btn close" onclick="closeWindow()" title="Close">&#10005;</button>
+    </div>
+  </div>
+
+  <!-- Menu Bar -->
+  <div class="menu-bar">
+    <span class="menu-item">File</span>
+    <span class="menu-item">Edit</span>
+    <span class="menu-item">View</span>
+    <span class="menu-item">Go</span>
+    <span class="menu-item">Bookmarks</span>
+    <span class="menu-item">Help</span>
+  </div>
+
+  <!-- Navigation Toolbar -->
+  <div class="toolbar">
+    <button class="nav-btn disabled" title="Back">&#9664;</button>
+    <button class="nav-btn disabled" title="Forward">&#9654;</button>
+    <button class="nav-btn disabled" title="Reload">&#8635;</button>
+    <button class="nav-btn disabled" title="Home">&#8962;</button>
+    <button class="nav-btn disabled" title="Search">&#128269;</button>
+    <span class="address-label">Location:</span>
+    <input class="address-bar" type="text" value="file:///C:/www.findorama.net" readonly>
+    <button class="nav-btn" title="Go" onclick="handleGo()">&#10148;</button>
+  </div>
+
+  <!-- Bookmarks Bar -->
+  <div class="bookmark-bar">
+    <span class="bookmark">Netscape Home</span>
+    <span class="bookmark">WebMail</span>
+    <span class="bookmark">My Netscape</span>
+    <span class="bookmark">Findorama</span>
+  </div>
+
+  <!-- ===== PAGE CONTENT ===== -->
+  <div class="page-content">
+
+    <!-- Green Header Bar -->
+    <div class="findorama-header">
+      <h1><span class="fancy-f">f</span>indorama.net</h1>
+    </div>
+
+    <!-- Login Form -->
+    <div class="login-area">
+      <div class="welcome-text">Please enter your Username and Password:</div>
+
+      <div class="error-msg" id="errorMsg"></div>
+
+      <form class="login-form" onsubmit="return handleLogin()">
+        <div class="form-row">
+          <label for="username">USERNAME:</label>
+          <input type="text" id="username" name="username" autocomplete="off" onfocus="this.select()">
+        </div>
+        <div class="form-row">
+          <label for="password">PASSWORD:</label>
+          <input type="password" id="password" name="password">
+        </div>
+        <button type="submit" class="submit-btn">SUBMIT</button>
+      </form>
+    </div>
+
+  </div>
+  <!-- END page-content -->
+
+  <!-- Status Bar -->
+  <div class="status-bar" id="statusBar">
+    <div class="status-left">
+      <span id="statusText">Done</span>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+    <div class="status-right">
+      <span>Document: Done</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== HIDDEN THERMITE TRIGGER ===== -->
+<button class="hidden-trigger" id="thermiteTrigger" title="[REDACTED]">&#9760;</button>
+
+<!-- ===== THERMITE OVERLAY ===== -->
+<div class="thermite-overlay" id="thermiteOverlay">
+  <div class="overlay-bg"></div>
+  <div class="thermite-message" id="thermiteMessage">
+    &#9888; THERMITE CHARGE ACTIVATED:<br>
+    OVERHEATING DRIVE C:\ ...<br>
+    <span style="font-size:16px;color:#ff3300;">SGC FAILSAFE PROTOCOL &omega; - INITIATED</span>
+  </div>
+  <div class="static-overlay"></div>
+  <div class="burn-effect" id="burnEffect"></div>
+  <button class="dismiss-btn" id="dismissBtn" onclick="dismissThermite()">&#10007; System Halt. Acknowledge.</button>
+</div>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+// ======================================================================
+// FINDORAMA.NET - Stargate SG-1 Login Portal
+// ======================================================================
+
+var thermiteActive = false;
+var failedLoginCount = 0;
+var statusMessages = [
+  'Connecting to secure server...',
+  'Establishing encrypted tunnel...',
+  'Verifying credentials...',
+  'Access denied. Invalid username or password.'
+];
+
+// ---- Window Controls ----
+function closeWindow() {
+  if (confirm('Are you sure you want to close Netscape?')) {
+    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#008080;font-family:Arial,sans-serif;color:#fff;font-size:18px;">Goodbye! <span style="cursor:pointer;margin-left:10px;color:#ffff00;text-decoration:underline;" onclick="location.reload()">Reopen Netscape</span></div>';
+  }
+}
+
+function minimizeWindow() {
+  var win = document.getElementById('browserWindow');
+  if (win.style.display !== 'none') {
+    win.style.display = 'none';
+    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#008080;font-family:Arial,sans-serif;color:#fff;font-size:14px;">Netscape minimized. <span style="cursor:pointer;margin-left:10px;color:#ffff00;text-decoration:underline;" onclick="location.reload()">Restore</span></div>';
+  }
+}
+
+var isMaximized = false;
+function toggleMaximize() {
+  isMaximized = !isMaximized;
+  var win = document.getElementById('browserWindow');
+  if (isMaximized) {
+    win.style.width = '100%';
+    win.style.position = 'fixed';
+    win.style.top = '0';
+    win.style.left = '0';
+    win.style.height = '100%';
+    win.style.boxShadow = 'none';
+    win.style.border = 'none';
+  } else {
+    win.style.width = '680px';
+    win.style.position = 'relative';
+    win.style.height = 'auto';
+    win.style.boxShadow = '4px 4px 0 rgba(0,0,0,0.5)';
+    win.style.border = '2px solid #ffffff';
+    win.style.borderRightColor = '#404040';
+    win.style.borderBottomColor = '#404040';
+  }
+}
+
+// ---- Address Bar ----
+function handleGo() {
+  setStatus('Connecting to file:///C:/www.findorama.net...');
+  simulateProgress();
+  setTimeout(function() {
+    setStatus('Document: Done');
+  }, 2000);
+}
+
+// ---- Login Handler ----
+function handleLogin() {
+  var username = document.getElementById('username').value.trim();
+  var password = document.getElementById('password').value;
+  var errorMsg = document.getElementById('errorMsg');
+  var userField = document.getElementById('username');
+  var passField = document.getElementById('password');
+
+  // Reset error states
+  errorMsg.classList.remove('visible');
+  userField.classList.remove('error');
+  passField.classList.remove('error');
+
+  if (!username || !password) {
+    setStatus('Error: Both fields are required.');
+    errorMsg.textContent = 'ERROR: Both fields are required.';
+    errorMsg.classList.add('visible');
+    if (!username) userField.classList.add('error');
+    if (!password) passField.classList.add('error');
+    return false;
+  }
+
+  failedLoginCount++;
+
+  setStatus('Authenticating user...');
+  simulateProgress();
+
+  setTimeout(function() {
+    if (failedLoginCount < 3) {
+      // Simulate access denied
+      setStatus('Access denied. Invalid username or password.');
+      errorMsg.textContent = 'ACCESS DENIED - Attempt ' + failedLoginCount + '/3';
+      errorMsg.classList.add('visible');
+      userField.classList.add('error');
+      passField.classList.add('error');
+
+      alert('ACCESS DENIED\n\nYour username or password is incorrect.\n' +
+            'This attempt has been logged. (' + failedLoginCount + '/3)\n\n' +
+            'Contact your system administrator if you have forgotten your credentials.');
+    }
+
+    // After 3 failed attempts, the thermite sequence triggers
+    if (failedLoginCount >= 3 && !thermiteActive) {
+      errorMsg.textContent = '!!! INTRUSION DETECTED - SYSTEM LOCK ACTIVE !!!';
+      errorMsg.classList.add('visible');
+      setTimeout(function() {
+        triggerThermiteFromLogin();
+      }, 500);
+    }
+  }, 1500);
+
+  return false;
+}
+
+// ---- Status Bar Helpers ----
+function setStatus(text) {
+  document.getElementById('statusText').textContent = text;
+}
+
+function simulateProgress() {
+  var bar = document.getElementById('progressFill');
+  bar.style.width = '0%';
+  var width = 0;
+  var interval = setInterval(function() {
+    if (width >= 100) {
+      clearInterval(interval);
+      return;
+    }
+    var increment = Math.floor(Math.random() * 15) + 3;
+    width = Math.min(width + increment, 100);
+    bar.style.width = width + '%';
+  }, 150);
+}
+
+// ---- THERMITE EASTER EGG ----
+// Triggered by 3 failed login attempts OR 5 rapid clicks on hidden skull
+
+function triggerThermiteFromLogin() {
+  if (thermiteActive) return;
+  thermiteActive = true;
+  setStatus('WARNING: UNAUTHORIZED ACCESS DETECTED');
+  setTimeout(function() {
+    activateThermiteSequence();
+  }, 600);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var trigger = document.getElementById('thermiteTrigger');
+  var clickCount = 0;
+  var clickTimer = null;
+
+  trigger.addEventListener('click', function() {
+    clickCount++;
+    if (clickTimer) clearTimeout(clickTimer);
+    clickTimer = setTimeout(function() { clickCount = 0; }, 2000);
+
+    if (clickCount >= 5) {
+      if (!thermiteActive) {
+        thermiteActive = true;
+        setStatus('WARNING: SYSTEM BREACH DETECTED');
+        setTimeout(function() {
+          activateThermiteSequence();
+        }, 600);
+      }
+    }
+  });
+});
+
+function activateThermiteSequence() {
+  document.getElementById('thermiteOverlay').classList.add('active');
+
+  var errorMessages = [
+    'CRITICAL ERROR: THERMITE CHARGE DETECTED ON DRIVE C:\\',
+    'SGC EMERGENCY PROTOCOL &omega; ACTIVATED',
+    'WARNING: SYSTEM TEMPERATURE CRITICAL - 850°C',
+    'DATA CORRUPTION DETECTED AT SECTOR 0x7A',
+    'FORCEFULLY SHUTTING DOWN...'
+  ];
+
+  var msgIndex = 0;
+  var errorInterval = setInterval(function() {
+    if (msgIndex < errorMessages.length) {
+      setStatus(errorMessages[msgIndex]);
+      msgIndex++;
+    } else {
+      clearInterval(errorInterval);
+    }
+  }, 900);
+}
+
+function dismissThermite() {
+  var overlay = document.getElementById('thermiteOverlay');
+  overlay.classList.remove('active');
+
+  document.body.innerHTML = '\
+    <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;background:#0a0a0a;font-family:\'Courier New\',Courier,monospace;color:#330000;text-align:center;padding:20px;">\
+      <div style="font-size:64px;margin-bottom:20px;opacity:0.3;">&#9760;</div>\
+      <div style="font-size:24px;color:#441111;margin-bottom:10px;letter-spacing:3px;">SYSTEM TERMINATED</div>\
+      <div style="font-size:14px;color:#332222;margin-bottom:30px;max-width:500px;line-height:1.6;">\
+        Drive C:\\ has been irreparably damaged by thermite charge.<br>\
+        All data on sector 0x7A through 0xFF has been permanently destroyed.<br>\
+        <span style="color:#553333;">SGC Failsafe Protocol &omega; executed successfully.</span>\
+      </div>\
+      <div style="font-size:12px;color:#222222;">\
+        [PRESS F2 TO ACCESS RECOVERY CONSOLE]&nbsp;&nbsp;|&nbsp;&nbsp;\
+        <span style="color:#333300;text-decoration:underline;cursor:pointer;" onclick="location.reload()">[REBOOT SYSTEM]</span>\
+      </div>\
+    </div>';
+}
+</script>
+
+</body>
+</html>
