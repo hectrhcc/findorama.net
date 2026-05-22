@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>findorama.net</title>
+<title>Findorama.net Your source for all information - Netscape</title>
 <style>
 /* ===== RESET & BASE ===== */
 * { margin: 0; padding: 0; }
@@ -109,31 +109,28 @@ body {
   color: #ffffff;
 }
 
-/* ---- Navigation Toolbar ---- */
+/* ---- Navigation Toolbar (row 1) ---- */
 .toolbar {
   background: #d4d0c8;
   border-bottom: 1px solid #808080;
   padding: 4px 6px;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   flex-wrap: wrap;
 }
 
 .toolbar .nav-btn {
-  width: 24px;
-  height: 20px;
   background: #c0c0c0;
   border: 1px solid #ffffff;
   border-right-color: #808080;
   border-bottom-color: #808080;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
-  font-size: 12px;
-  color: #333;
-  padding: 0;
+  font-family: "Arial", "Helvetica", sans-serif;
+  font-size: 11px;
+  color: #000;
+  padding: 2px 7px;
+  white-space: nowrap;
 }
 
 .toolbar .nav-btn:active {
@@ -142,19 +139,25 @@ body {
   border-bottom-color: #ffffff;
 }
 
-.toolbar .nav-btn.disabled {
-  opacity: 0.4;
-  cursor: default;
+/* ---- Location Toolbar (row 2) ---- */
+.location-bar {
+  background: #d4d0c8;
+  border-bottom: 1px solid #808080;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.toolbar .address-label {
+.location-bar .address-label {
   font-size: 11px;
-  color: #333;
+  color: #000;
   font-weight: bold;
   white-space: nowrap;
+  font-family: "Arial", "Helvetica", sans-serif;
 }
 
-.toolbar .address-bar {
+.location-bar .address-bar {
   flex: 1;
   min-width: 200px;
   padding: 2px 5px;
@@ -163,6 +166,24 @@ body {
   border: 2px inset #d4d0c8;
   background: #ffffff;
   color: #000;
+}
+
+.location-bar .nav-btn {
+  background: #c0c0c0;
+  border: 1px solid #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  cursor: pointer;
+  font-family: "Arial", "Helvetica", sans-serif;
+  font-size: 11px;
+  color: #000;
+  padding: 2px 12px;
+}
+
+.location-bar .nav-btn:active {
+  border: 1px solid #808080;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
 }
 
 /* ---- Netscape Bookmarks / Personal Toolbar ---- */
@@ -189,35 +210,39 @@ body {
 
 /* ===== PAGE CONTENT - THE ACTUAL FINDORAMA LOGIN ===== */
 .page-content {
-  background: #b0c4de;  /* light periwinkle blue - matching the episode */
+  background: #ffffff;  /* white background */
   min-height: 380px;
-  padding: 0;
+  padding: 20px;
   border: 1px solid #999;
   border-top: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* ---- Green Header Bar with "findorama.net" ---- */
 .findorama-header {
-  background: #6b8e23;  /* olive green - matching the episode */
-  padding: 12px 20px;
+   /* bright yellow */
+  padding: 20px 40px;
   text-align: center;
-  border-bottom: 1px solid #556b2f;
+ 
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
 }
 
 .findorama-header h1 {
-  font-family: "Times New Roman", "Georgia", serif;
-  font-size: 48px;
-  font-weight: bold;
-  color: #000000;
-  letter-spacing: 1px;
   margin: 0;
+  line-height: 1;
 }
 
-.findorama-header h1 .fancy-f {
-  font-family: "Times New Roman", "Georgia", serif;
-  font-size: 52px;
-  font-style: italic;
-  font-weight: bold;
+.findorama-header h1 img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  image-rendering: auto;
 }
 
 /* ---- Login Form Area ---- */
@@ -226,9 +251,13 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 45px 20px 50px;
-  min-height: 280px;
+  padding: 30px 40px;
   position: relative;
+  background: #a9e7ff;  /* sky blue */
+ 
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
 }
 
 .login-area .welcome-text {
@@ -605,7 +634,7 @@ body {
         <text x="8" y="11" text-anchor="middle" font-size="9" font-weight="bold" fill="#000080">N</text>
       </svg>
     </div>
-    <span class="title-text">Netscape</span>
+    <span class="title-text">findorama.et Your source for all information - Netscape</span>
     <div class="window-controls">
       <button class="win-btn" onclick="minimizeWindow()" title="Minimize">&#95;</button>
       <button class="win-btn" onclick="toggleMaximize()" title="Maximize">&#9744;</button>
@@ -617,22 +646,30 @@ body {
   <div class="menu-bar">
     <span class="menu-item">File</span>
     <span class="menu-item">Edit</span>
-    <span class="menu-item">View</span>
     <span class="menu-item">Go</span>
-    <span class="menu-item">Bookmarks</span>
+    <span class="menu-item">Communicator</span>
     <span class="menu-item">Help</span>
   </div>
 
-  <!-- Navigation Toolbar -->
+  <!-- Navigation Toolbar (Row 1: Netscape 4.x buttons) -->
   <div class="toolbar">
-    <button class="nav-btn disabled" title="Back">&#9664;</button>
-    <button class="nav-btn disabled" title="Forward">&#9654;</button>
-    <button class="nav-btn disabled" title="Reload">&#8635;</button>
-    <button class="nav-btn disabled" title="Home">&#8962;</button>
-    <button class="nav-btn disabled" title="Search">&#128269;</button>
+    <button class="nav-btn" title="Back">Back</button>
+    <button class="nav-btn" title="Forward">Forward</button>
+    <button class="nav-btn" title="Reload">Reload</button>
+    <button class="nav-btn" title="Home">Home</button>
+    <button class="nav-btn" title="Search">Search</button>
+    <button class="nav-btn" title="Netscape">Netscape</button>
+    <button class="nav-btn" title="Print">Print</button>
+    <button class="nav-btn" title="Security">Security</button>
+    <button class="nav-btn" title="Shop">Shop</button>
+    <button class="nav-btn" title="Stop">Stop</button>
+  </div>
+
+  <!-- Location Toolbar (Row 2) -->
+  <div class="location-bar">
     <span class="address-label">Location:</span>
-    <input class="address-bar" type="text" value="file:///C:/www.findorama.net" readonly>
-    <button class="nav-btn" title="Go" onclick="handleGo()">&#10148;</button>
+    <input class="address-bar" type="text" value="file:///Users/findorama.net.bin/login.html" readonly>
+    <button class="nav-btn" title="Go" onclick="handleGo()">Go</button>
   </div>
 
   <!-- Bookmarks Bar -->
@@ -640,7 +677,7 @@ body {
     <span class="bookmark">Netscape Home</span>
     <span class="bookmark">WebMail</span>
     <span class="bookmark">My Netscape</span>
-    <span class="bookmark">Findorama</span>
+    <span class="bookmark">findorama</span>
   </div>
 
   <!-- ===== PAGE CONTENT ===== -->
@@ -648,7 +685,7 @@ body {
 
     <!-- Green Header Bar -->
     <div class="findorama-header">
-      <h1><span class="fancy-f">f</span>indorama.net</h1>
+      <h1><img src="findorama.png" alt="findorama.net"></h1>
     </div>
 
     <!-- Login Form -->
@@ -660,7 +697,7 @@ body {
       <form class="login-form" onsubmit="return handleLogin()">
         <div class="form-row">
           <label for="username">USERNAME:</label>
-          <input type="text" id="username" name="username" autocomplete="off" onfocus="this.select()">
+          <input type="text" id="username" name="username" autocomplete="off" value="bernard" onfocus="this.select()">
         </div>
         <div class="form-row">
           <label for="password">PASSWORD:</label>
@@ -758,7 +795,7 @@ function toggleMaximize() {
 
 // ---- Address Bar ----
 function handleGo() {
-  setStatus('Connecting to file:///C:/www.findorama.net...');
+  setStatus('Connecting to file:///C:/www.findorama.net.bin/login.html...');
   simulateProgress();
   setTimeout(function() {
     setStatus('Document: Done');
