@@ -4,7 +4,7 @@ A faithful, retro-styled recreation of the fictional "Findorama" prop website fe
 
 This project captures the peak early-2000s web aesthetic, accurately mimicking the Netscape Navigator environment and the iconic login page used by General Hammond and Harry Maybourne to expose the rogue NID operations.
 
-🌐 **Live Demo:** [https://findorama.netlify.app/](https://findorama.netlify.app/)
+🌐 **Live Demo:** [https://findorama.netlify.app/](https://findorama-net.vercel.app/)
 
 ---
 
